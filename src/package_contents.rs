@@ -1,5 +1,5 @@
 use std::io::{self, BufRead, BufReader, Cursor};
-use std::path::{Path, PathBuf};
+use std::path::{Path, PathBuf, Component};
 
 use anyhow::format_err;
 use fs_err::File;
@@ -51,13 +51,8 @@ impl PackageContents {
                 archive.add_directory(archive_name, FileOptions::default())?;
             } else {
                 archive.start_file(archive_name, FileOptions::default())?;
-
-                log::info!(
-                    "{}",
-                    path.to_str().unwrap_or("unknown path")
-                );
                 
-                if path.ends_with("default.project.json") {
+                if path.parent().is_some_and(|p| Component::CurDir == p.components().last().expect("Parent exists")) && path.ends_with("default.project.json") {
                     let project_file = File::open(path)?;
                     let mut project_json: serde_json::Value =
                         serde_json::from_reader(project_file)?;
