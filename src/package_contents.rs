@@ -54,7 +54,7 @@ impl PackageContents {
 
                 log::info!(
                     "{}",
-                    path.to_str()
+                    path.to_str().unwrap_or("unknown path")
                 );
                 
                 if path.ends_with("default.project.json") {
