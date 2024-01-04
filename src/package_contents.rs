@@ -52,6 +52,11 @@ impl PackageContents {
             } else {
                 archive.start_file(archive_name, FileOptions::default())?;
 
+                log::info!(
+                    "{}",
+                    path.to_str()
+                );
+                
                 if path.ends_with("default.project.json") {
                     let project_file = File::open(path)?;
                     let mut project_json: serde_json::Value =
