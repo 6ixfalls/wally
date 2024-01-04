@@ -36,7 +36,7 @@ jobs:
     uses: ./.github/workflows/build.yml
     needs: fetch_tag
     with:
-      tag: nightly
+      tag: ${{ needs.fetch_tag.outputs.previous_tag }}-nightly
       upload_url: https://uploads.github.com/repos/UpliftGames/wally/releases/108261310/assets{?name,label}
       release_ref: ${{ needs.fetch_tag.outputs.previous_tag }}-nightly
       overwrite: true
